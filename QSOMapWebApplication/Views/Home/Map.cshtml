@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewData["Title"] = "Map";
+}
+
+<h2>Map</h2>
+<h3>show map here</h3>
+<div id="map" style="position: absolute; 
+                     width: 90%; 
+                     left: 5%; 
+                     height: 500px;
+                     top: 75px;"></div>
+<script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 0, lng: -180},
+          mapTypeId: 'terrain'
+        });
+        var endpointdata = @Html.Raw(ViewBag.Coordinates);
+          for (i = 0; i < endpointdata.length; ++i) {
+              var qsoData = [new google.maps.LatLng(30.4, -97.7), endpointdata[i]];
+              var qsoPath = new google.maps.Polyline({
+                  path: qsoData,
+                  geodesic: true,
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 0.10,
+                  strokeWeight: 1
+              });
+              qsoPath.setMap(map);
+
+          }
+          /*var flightPlanCoordinates = [
+          {lat: 37.772, lng: -122.214},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}
+        ];
+        var flightPath = new google.maps.Polyline({
+          path: endpointdata,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.5,
+          strokeWeight: 1
+        });
+
+        flightPath.setMap(map);
+        */
+      }
+</script>
+@*<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script>*@
+<script async defer src="@(ViewBag.GoogleMapsApi)"></script>
